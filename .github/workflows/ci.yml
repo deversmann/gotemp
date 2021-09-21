@@ -26,8 +26,9 @@ jobs:
         run: |
           go test ./... -coverprofile cover.out
           go tool cover -func cover.out | grep total | awk '{print $3}' | xargs -I {} curl \
-          --header "Authorization: Token 8ad14689-c7c2-4f8f-bc9f-da67bdf5983e" \
-          --data "{ \"value\":\"{}\", \"sha\":\"$(git rev-parse HEAD)\"}" \
+          --header "Authorization: Token ${{ secrets.SERIESCI_TOKEN }}" \
+          --header "Content-Type: application/json" \
+          --data "{ \"value\":\"{}\", \"sha\":\"${GITHUB_SHA}\"}" \
           https://seriesci.com/api/deversmann/gotemp/coverage/one
       - name: Build the project
         run: go build ./...
