@@ -28,7 +28,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest' && matrix.go == '1.17'
         run: |
           go test ./... -coverprofile cover.out
-          go tool cover -func cover.out | grep total | awk '{print 3}' | xargs -I {} curl \
+          go tool cover -func cover.out | grep total | awk '{print $3}' | xargs -I {} curl \
           --header "Authorization: Token 4a571e67-71ac-4916-bd64-af263a4609f4" \
           --data value="{}" \
           --data sha="$(git rev-parse HEAD)" \
