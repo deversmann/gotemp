@@ -25,10 +25,10 @@ jobs:
         if: matrix.os == 'ubuntu-latest' && matrix.go == '1.17'
         run: |
           go test ./... -coverprofile cover.out
-          go tool cover -func cover.out | grep total | awk '{print substr($3, 1, length($3)-1) " %"}' | xargs -I {} curl \
-          --header "Authorization: Token 4a571e67-71ac-4916-bd64-af263a4609f4" \
+          go tool cover -func cover.out | grep total | awk '{print $3}' | xargs -I {} curl \
+          --header "Authorization: Token ${{ secrets.SERIESCI_TOKEN }}" \
           --data "{ \"value\":\"{}\", \"sha\":\"${GITHUB_SHA}\"}" \
-          https://seriesci.com/api/repos/deversmann/gotemp/coverage/values
+          https://seriesci.com/api/deversmann/gotemp/coverage/one
       - name: Build the project
         run: go build ./...
 
