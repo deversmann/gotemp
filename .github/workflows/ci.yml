@@ -28,7 +28,7 @@ jobs:
           go tool cover -func cover.out | grep total | awk '{print $3}' | xargs -I {} curl \
           --header "Authorization: Token 4a571e67-71ac-4916-bd64-af263a4609f4" \
           --data value="{}" \
-          --data sha="$(git rev-parse HEAD)" \
+          --data sha="${GITHUB_SHA}" \
           https://seriesci.com/api/repos/deversmann/gotemp/coverage/values
       - name: Build the project
         run: go build ./...
